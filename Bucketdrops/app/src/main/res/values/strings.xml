@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Bucketdrops</string>
+    <string name="str_add_drop">Add a drop</string>
+    <string name="main_screen_logo">main_screen_logo</string>
 </resources>
