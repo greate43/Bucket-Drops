@@ -3,8 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
 
-    tools:context="sk.greate43.bucketdrops.MainActivity">
+    tools:context=".activities.MainActivity">
 
     <include
         android:id="@+id/toolbar"
@@ -17,7 +18,19 @@
         android:layout_below="@+id/toolbar"
         />
 
-    <include layout="@layout/empty_drop"
+    <sk.greate43.bucketdrops.widgets.BucketRecyclerView
+        android:id="@+id/recycler"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/toolbar"
+        app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+        />
+
+
+
+    <include android:id="@+id/empty_drops"
+
+        layout="@layout/empty_drop"
 
         />
 </RelativeLayout>

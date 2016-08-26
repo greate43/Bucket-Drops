@@ -1,4 +1,4 @@
-package sk.greate43.bucketdrops;
+package sk.greate43.bucketdrops.dialogFragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -12,13 +12,14 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 
 import io.realm.Realm;
-import io.realm.RealmConfiguration;
+import sk.greate43.bucketdrops.R;
+import sk.greate43.bucketdrops.model.Drop;
 
 
 /**
  * Created by great on 8/22/2016.
  */
-public class addDialog extends DialogFragment {
+public class AddDialog extends DialogFragment {
 
     private ImageButton mBtnClose;
     private EditText mInputWhat;
@@ -45,8 +46,7 @@ public class addDialog extends DialogFragment {
         String what=mInputWhat.getText().toString();
         long now= System.currentTimeMillis();
 
-        RealmConfiguration config=new RealmConfiguration.Builder(getActivity()).build();
-        Realm.setDefaultConfiguration(config);
+
 
 
         Realm realm=Realm.getDefaultInstance();
@@ -58,7 +58,7 @@ public class addDialog extends DialogFragment {
 
     }
 
-    public addDialog() {
+    public AddDialog() {
     }
 
     @Nullable

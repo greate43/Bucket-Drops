@@ -1,4 +1,4 @@
-package sk.greate43.bucketdrops;
+package sk.greate43.bucketdrops.model;
 
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
@@ -27,31 +27,21 @@ public class Drop extends RealmObject {
         return what;
     }
 
-    public void setWhat(String what) {
-        this.what = what;
-    }
-
     public long getAdded() {
         return added;
     }
 
-    public void setAdded(long added) {
-        this.added = added;
-    }
+
 
     public long getWhen() {
         return when;
     }
 
-    public void setWhen(long when) {
-        this.when = when;
-    }
+
 
     public boolean isCompleted() {
         return completed;
     }
 
-    public void setCompleted(boolean completed) {
-        this.completed = completed;
-    }
+
 }
