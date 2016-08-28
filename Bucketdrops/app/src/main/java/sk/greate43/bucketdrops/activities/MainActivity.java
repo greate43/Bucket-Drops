@@ -2,6 +2,7 @@ package sk.greate43.bucketdrops.activities;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
@@ -14,7 +15,9 @@ import io.realm.RealmChangeListener;
 import io.realm.RealmResults;
 import sk.greate43.bucketdrops.R;
 import sk.greate43.bucketdrops.adatpors.AdapterDrops;
+import sk.greate43.bucketdrops.customDrawable.Divider;
 import sk.greate43.bucketdrops.dialogFragment.AddDialog;
+import sk.greate43.bucketdrops.interfaces.AddListener;
 import sk.greate43.bucketdrops.model.Drop;
 import sk.greate43.bucketdrops.widgets.BucketRecyclerView;
 
@@ -23,6 +26,12 @@ public class MainActivity extends AppCompatActivity {
     BucketRecyclerView recyclerView;
     Realm realm;
     RealmResults<Drop> results;
+    private AddListener mAddListener = new AddListener() {
+        @Override
+        public void add() {
+            showDialogAdd();
+        }
+    };
     AdapterDrops adatperDrop;
     View emptyView;
     private RealmChangeListener realmChangeListener=new RealmChangeListener() {
@@ -42,14 +51,18 @@ public class MainActivity extends AppCompatActivity {
         realm = Realm.getDefaultInstance();
         results=realm.where(Drop.class).findAllAsync();
 
-        emptyView=(View) findViewById(R.id.empty_drops);
+        emptyView= findViewById(R.id.empty_drops);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         recyclerView = (BucketRecyclerView) findViewById(R.id.recycler);
         recyclerView.hideifempty(toolbar);
         recyclerView.showifempty(emptyView);
-        adatperDrop=new AdapterDrops(this,results);
+        adatperDrop=new AdapterDrops(this,results,mAddListener);
+
         recyclerView.setAdapter(adatperDrop);
 
+
+
+        recyclerView.addItemDecoration(new Divider(this, LinearLayoutManager.VERTICAL));
         setSupportActionBar(toolbar);
         initImageView();
 

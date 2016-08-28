@@ -9,8 +9,8 @@
     <dimen name="btn_add_it_stroke_width">1dp</dimen>
 
     <!--The properties associated with the ImageView displaying the logo inside empty drops xml file-->
-    <dimen name="iv_logo_size">192dp</dimen>
-    <dimen name="iv_logo_margin">84dp</dimen>
+    <dimen name="iv_logo_size">192sp</dimen>
+    <dimen name="iv_logo_margin">84sp</dimen>
 
     <!--The properties associated with the Button displaying 'Add a Drop' inside empty drops xml file-->
     <dimen name="btn_add_margin">24dp</dimen>
