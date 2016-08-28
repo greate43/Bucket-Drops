@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
     BucketRecyclerView recyclerView;
     Realm realm;
     RealmResults<Drop> results;
-    private AddListener mAddListener = new AddListener() {
+    private AddListener addListener = new AddListener() {
         @Override
         public void add() {
             showDialogAdd();
@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
         recyclerView = (BucketRecyclerView) findViewById(R.id.recycler);
         recyclerView.hideifempty(toolbar);
         recyclerView.showifempty(emptyView);
-        adatperDrop=new AdapterDrops(this,results,mAddListener);
+        adatperDrop=new AdapterDrops(this,results, addListener);
 
         recyclerView.setAdapter(adatperDrop);
 

@@ -21,7 +21,7 @@ public class AdapterDrops extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     public static final int ITEM=0;
     public static final int FOOTER=1;
-    private AddListener mAddListener;
+    private AddListener addListener;
     private LayoutInflater inflater;
     private RealmResults<Drop> results;
     public static final String TAG="Salman";
@@ -31,7 +31,7 @@ public class AdapterDrops extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     public AdapterDrops(Context context, RealmResults<Drop> results,AddListener listener) {
         inflater = LayoutInflater.from(context);
         update(results);
-        mAddListener=listener;
+        addListener =listener;
     }
 
     public void update(RealmResults<Drop> results){
@@ -45,7 +45,7 @@ public class AdapterDrops extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         if (viewType==FOOTER){
             View view = inflater.inflate(R.layout.footer, parent, false);
             Log.d(TAG, "onCreateViewHolder: Footer ");
-            return new FooterHolder(view,mAddListener);
+            return new FooterHolder(view, addListener);
         }else {
             View view = inflater.inflate(R.layout.row_drop, parent, false);
             Log.d(TAG, "onCreateViewHolder: Holder ");
