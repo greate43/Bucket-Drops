@@ -1,4 +1,4 @@
-package sk.greate43.bucketdrops.customDrawable;
+package sk.greate43.bucketdrops.recyclerCustomItem;
 
 
 import android.content.Context;

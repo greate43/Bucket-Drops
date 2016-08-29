@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.Toolbar;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -15,10 +16,11 @@ import io.realm.RealmChangeListener;
 import io.realm.RealmResults;
 import sk.greate43.bucketdrops.R;
 import sk.greate43.bucketdrops.adatpors.AdapterDrops;
-import sk.greate43.bucketdrops.customDrawable.Divider;
+import sk.greate43.bucketdrops.recyclerCustomItem.Divider;
 import sk.greate43.bucketdrops.dialogFragment.AddDialog;
 import sk.greate43.bucketdrops.interfaces.AddListener;
 import sk.greate43.bucketdrops.model.Drop;
+import sk.greate43.bucketdrops.recyclerCustomItem.SimpleTouchCallback;
 import sk.greate43.bucketdrops.widgets.BucketRecyclerView;
 
 public class MainActivity extends AppCompatActivity {
@@ -48,22 +50,25 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
 
-        realm = Realm.getDefaultInstance();
-        results=realm.where(Drop.class).findAllAsync();
-
         emptyView= findViewById(R.id.empty_drops);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         recyclerView = (BucketRecyclerView) findViewById(R.id.recycler);
+
+        setSupportActionBar(toolbar);
+
+        realm = Realm.getDefaultInstance();
+        results=realm.where(Drop.class).findAllAsync();
+
         recyclerView.hideifempty(toolbar);
         recyclerView.showifempty(emptyView);
-        adatperDrop=new AdapterDrops(this,results, addListener);
-
+        adatperDrop=new AdapterDrops(this,realm,results, addListener);
         recyclerView.setAdapter(adatperDrop);
-
-
-
         recyclerView.addItemDecoration(new Divider(this, LinearLayoutManager.VERTICAL));
-        setSupportActionBar(toolbar);
+
+        SimpleTouchCallback simpleTouchCallback=new SimpleTouchCallback(adatperDrop);
+        ItemTouchHelper itemTouchHelper=new ItemTouchHelper(simpleTouchCallback);
+        itemTouchHelper.attachToRecyclerView(recyclerView);
+
         initImageView();
 
     }
