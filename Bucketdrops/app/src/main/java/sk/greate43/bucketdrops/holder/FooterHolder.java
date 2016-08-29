@@ -12,9 +12,9 @@ import sk.greate43.bucketdrops.interfaces.AddListener;
  */
 
 public class FooterHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-    Button footer;
+   private Button footer;
     // using for the fragment dialog
-    AddListener addListener;
+   private AddListener addListener;
 
     public FooterHolder(View itemView,AddListener listener) {
         super(itemView);

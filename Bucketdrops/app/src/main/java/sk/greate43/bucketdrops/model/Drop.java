@@ -39,9 +39,11 @@ public class Drop extends RealmObject {
 
 
 
-    public boolean isCompleted() {
+    public boolean getCompletedTask() {
         return completed;
     }
 
-
+    public void setCompleted(boolean completed) {
+        this.completed = completed;
+    }
 }

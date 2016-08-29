@@ -16,8 +16,11 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/toolbar"
-        android:contentDescription=""
-        tools:ignore="ContentDescription" />
+        android:contentDescription="@string/background_image"
+
+
+
+        />
 
     <sk.greate43.bucketdrops.widgets.BucketRecyclerView
         android:id="@+id/recycler"

@@ -4,4 +4,8 @@
     <string name="main_screen_logo">main_screen_logo</string>
     <string name="what_is_it">What is it?</string>
     <string name="str_add_it">Add It</string>
+    <string name="mark_complete">Mark Complete</string>
+    <string name="drop_image">drop image</string>
+    <string name="background_image">background image</string>
+    <string name="close">close</string>
 </resources>

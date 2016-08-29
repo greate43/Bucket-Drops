@@ -13,6 +13,7 @@ import sk.greate43.bucketdrops.R;
 import sk.greate43.bucketdrops.holder.DropHolder;
 import sk.greate43.bucketdrops.holder.FooterHolder;
 import sk.greate43.bucketdrops.interfaces.AddListener;
+import sk.greate43.bucketdrops.interfaces.MarkListener;
 import sk.greate43.bucketdrops.interfaces.SwipeListener;
 import sk.greate43.bucketdrops.model.Drop;
 
@@ -24,6 +25,7 @@ public class AdapterDrops extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     public static final int ITEM=0;
     public static final int FOOTER=1;
     private AddListener addListener;
+    private MarkListener markListener;
     private LayoutInflater inflater;
     private RealmResults<Drop> results;
     private Realm realm;
@@ -31,11 +33,12 @@ public class AdapterDrops extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
 
 
-    public AdapterDrops(Context context, Realm r, RealmResults<Drop> results, AddListener listener) {
+    public AdapterDrops(Context context, Realm r, RealmResults<Drop> results, AddListener listener, MarkListener m) {
         inflater = LayoutInflater.from(context);
         update(results);
         addListener =listener;
         realm=r;
+        markListener=m;
     }
 
     public void update(RealmResults<Drop> results){
@@ -53,7 +56,7 @@ public class AdapterDrops extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         }else {
             View view = inflater.inflate(R.layout.row_drop, parent, false);
             Log.d(TAG, "onCreateViewHolder: Holder ");
-            return new DropHolder(view);
+            return new DropHolder(view,markListener);
         }
 
 
@@ -102,5 +105,15 @@ public class AdapterDrops extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         realm.commitTransaction();
         notifyItemRemoved(position);
     }
+    }
+
+    public void markComplete(int position) {
+        if (position<results.size()){
+
+        realm.beginTransaction();
+        results.get(position).setCompleted(true);
+        realm.commitTransaction();
+           notifyItemChanged(position);
+        }
     }
 }

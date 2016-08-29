@@ -1,25 +1,55 @@
 package sk.greate43.bucketdrops.holder;
 
+import android.content.Context;
+import android.graphics.drawable.Drawable;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
 
 import sk.greate43.bucketdrops.R;
+import sk.greate43.bucketdrops.interfaces.MarkListener;
 import sk.greate43.bucketdrops.model.Drop;
 
 /**
  * Created by great on 8/25/2016.
  */
-public  class DropHolder extends RecyclerView.ViewHolder {
+public class DropHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-    TextView mTextWhat;
-    public DropHolder(View itemView) {
+    private TextView TextWhat;
+    private TextView TextWhen;
+    private MarkListener markListener;
+    private Context context;
+   private View view;
+    public DropHolder(View itemView, MarkListener m) {
         super(itemView);
-        mTextWhat = (TextView) itemView.findViewById(R.id.tv_what);
+        view=itemView;
+        itemView.setOnClickListener(this);
+        context = itemView.getContext();
+        TextWhat = (TextView) itemView.findViewById(R.id.tv_what);
+        TextWhen = (TextView) itemView.findViewById(R.id.tv_when);
+        markListener = m;
+    }
+
+    public void UpdateUI(Drop drop) {
+        TextWhat.setText(drop.getWhat());
+        setBackgroundColor(drop.getCompletedTask());
+    }
+
+    private void setBackgroundColor(boolean completedTask) {
+        Drawable drawable;
+        if (completedTask) {
+            drawable = ContextCompat.getDrawable(context, R.color.bg_drop_complete);
+        } else {
+            drawable = ContextCompat.getDrawable(context, R.color.bg_drop_row_dark);
+        }
+
+        view.setBackground(drawable);
 
     }
 
-    public void UpdateUI(Drop drop){
-        mTextWhat.setText(drop.getWhat());
+    @Override
+    public void onClick(View v) {
+        markListener.OnMark(getAdapterPosition());
     }
 }
