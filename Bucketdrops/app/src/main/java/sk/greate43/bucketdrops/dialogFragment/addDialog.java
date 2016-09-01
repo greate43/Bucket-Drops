@@ -1,5 +1,6 @@
 package sk.greate43.bucketdrops.dialogFragment;
 
+
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
@@ -7,13 +8,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 
 import io.realm.Realm;
 import sk.greate43.bucketdrops.R;
 import sk.greate43.bucketdrops.model.Drop;
+import sk.greate43.bucketdrops.widgets.BucketPickerView;
 
 
 /**
@@ -26,7 +27,7 @@ public class AddDialog extends DialogFragment {
 
     private ImageButton BtnClose;
     private EditText InputWhat;
-    private DatePicker InputWhen;
+    private BucketPickerView InputWhen;
     private Button BtnAdd;
 
     private View.OnClickListener mBtnClickListener = new View.OnClickListener() {
@@ -53,7 +54,7 @@ public class AddDialog extends DialogFragment {
 
 
         Realm realm=Realm.getDefaultInstance();
-        Drop drop=new Drop(what,now,0,false);
+        Drop drop=new Drop(what,now,InputWhen.getTime(),false);
         realm.beginTransaction();
         realm.copyToRealm(drop);
         realm.commitTransaction();
@@ -62,6 +63,12 @@ public class AddDialog extends DialogFragment {
     }
 
     public AddDialog() {
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setStyle(DialogFragment.STYLE_NORMAL,R.style.DialogThemeCustom);
     }
 
     @Nullable
@@ -76,7 +83,7 @@ public class AddDialog extends DialogFragment {
         super.onViewCreated(view, savedInstanceState);
         BtnClose = (ImageButton) view.findViewById(R.id.btn_close);
         InputWhat = (EditText) view.findViewById(R.id.et_drop);
-        InputWhen = (DatePicker) view.findViewById(R.id.datePicker);
+        InputWhen = (BucketPickerView) view.findViewById(R.id.datePicker);
         BtnAdd = (Button) view.findViewById(R.id.btn_add_a_drop);
 
         BtnClose.setOnClickListener(mBtnClickListener);

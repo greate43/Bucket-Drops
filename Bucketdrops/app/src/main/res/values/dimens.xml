@@ -4,8 +4,8 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
 
     <!--Used the background drawable for the button Add a Drop inside empty drops xml file-->
-    <dimen name="btn_add_it_corner_radius_purple">100dp</dimen>
-    <dimen name="btn_add_it_corner_radius_green">100dp</dimen>
+    <dimen name="btn_add_it_corner_radius_purple">10dp</dimen>
+    <dimen name="btn_add_it_corner_radius_green">10dp</dimen>
     <dimen name="btn_add_it_stroke_width">1dp</dimen>
 
     <!--The properties associated with the ImageView displaying the logo inside empty drops xml file-->
@@ -23,4 +23,10 @@
     <dimen name="iv_add_dialog_width">12dp</dimen>
     <dimen name="iv_add_dialog_heigth">12dp</dimen>
     <dimen name="et_drop_padding">16dp</dimen>
+
+    <dimen name="tv_picker_item_width">92dp</dimen>
+    <dimen name="tv_picker_item_font_size">24sp</dimen>
+    <dimen name="tv_picker_item_drawable_padding">16dp</dimen>
+    <dimen name="bg_picker_item_corner_radius">4dp</dimen>
+    <dimen name="bpv_space">16dp</dimen>
 </resources>

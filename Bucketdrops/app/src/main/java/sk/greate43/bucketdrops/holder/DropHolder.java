@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
+import android.text.format.DateUtils;
 import android.view.View;
 import android.widget.TextView;
 
@@ -34,7 +35,11 @@ public class DropHolder extends RecyclerView.ViewHolder implements View.OnClickL
     public void UpdateUI(Drop drop) {
         TextWhat.setText(drop.getWhat());
         setBackgroundColor(drop.getCompletedTask());
+        TextWhen.setText(DateUtils.getRelativeTimeSpanString(drop.getWhen(),System.currentTimeMillis(),DateUtils.DAY_IN_MILLIS,0));
+        //DateUtils.FORMAT_ABBREV_ALL
     }
+
+
 
     private void setBackgroundColor(boolean completedTask) {
         Drawable drawable;

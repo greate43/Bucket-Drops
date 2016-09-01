@@ -10,10 +10,14 @@ import android.view.ViewGroup;
 import io.realm.Realm;
 import io.realm.RealmResults;
 import sk.greate43.bucketdrops.R;
+import sk.greate43.bucketdrops.application.AppBucketDrops;
 import sk.greate43.bucketdrops.holder.DropHolder;
 import sk.greate43.bucketdrops.holder.FooterHolder;
+import sk.greate43.bucketdrops.holder.NoItemViewHolder;
 import sk.greate43.bucketdrops.interfaces.AddListener;
+import sk.greate43.bucketdrops.interfaces.Filter;
 import sk.greate43.bucketdrops.interfaces.MarkListener;
+import sk.greate43.bucketdrops.interfaces.ResetListener;
 import sk.greate43.bucketdrops.interfaces.SwipeListener;
 import sk.greate43.bucketdrops.model.Drop;
 
@@ -22,43 +26,57 @@ import sk.greate43.bucketdrops.model.Drop;
  */
 public class AdapterDrops extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements SwipeListener {
 
-    public static final int ITEM=0;
-    public static final int FOOTER=1;
+    public static final int ITEM = 0;
+    public static final int NO_ITEM = 1;
+    public static final int FOOTER = 2;
+
+    public static final int COUNT_FOOTER = 1;
+    public static final int COUNT_NO_ITEM = 1;
+
     private AddListener addListener;
     private MarkListener markListener;
     private LayoutInflater inflater;
     private RealmResults<Drop> results;
     private Realm realm;
-    public static final String TAG="Salman";
+    private int optionFilter;
+    private ResetListener restListener;
+    private Context context;
+    public static final String TAG = "Salman";
 
 
-
-    public AdapterDrops(Context context, Realm r, RealmResults<Drop> results, AddListener listener, MarkListener m) {
+    public AdapterDrops(Context context, Realm r, RealmResults<Drop> results, AddListener listener, MarkListener m, ResetListener reset) {
+        this.context = context;
         inflater = LayoutInflater.from(context);
         update(results);
-        addListener =listener;
-        realm=r;
-        markListener=m;
+        addListener = listener;
+        realm = r;
+        markListener = m;
+        restListener=reset;
     }
 
-    public void update(RealmResults<Drop> results){
+    public void update(RealmResults<Drop> results) {
+        optionFilter = AppBucketDrops.load(context);
         this.results = results;
         notifyDataSetChanged();
     }
 
+
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
-        if (viewType==FOOTER){
+        if (viewType == FOOTER) {
             View view = inflater.inflate(R.layout.footer, parent, false);
             Log.d(TAG, "onCreateViewHolder: Footer ");
             return new FooterHolder(view, addListener);
-        }else {
+        } else if (viewType == NO_ITEM) {
+            View view = inflater.inflate(R.layout.no_item, parent, false);
+            Log.d(TAG, "onCreateViewHolder: NO ITEM ");
+            return new NoItemViewHolder(view);
+        } else {
             View view = inflater.inflate(R.layout.row_drop, parent, false);
-            Log.d(TAG, "onCreateViewHolder: Holder ");
-            return new DropHolder(view,markListener);
+            Log.d(TAG, "onCreateViewHolder: DropHolder ");
+            return new DropHolder(view, markListener);
         }
-
 
 
     }
@@ -66,54 +84,88 @@ public class AdapterDrops extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     @Override
     public int getItemViewType(int position) {
 
-        if(results==null||position<results.size()){
+        if (!results.isEmpty()) {
+            if (position < results.size()) {
                 return ITEM;
-        }else {
-            return FOOTER;
+            } else {
+                return FOOTER;
+            }
+        } else {
+            if (optionFilter == Filter.COMPLETE ||
+                    optionFilter == Filter.INCOMPLETE) {
+                if (position == 0) {
+                    return NO_ITEM;
+                } else {
+                    return FOOTER;
+                }
+            } else {
+                return ITEM;
+            }
         }
-
 
     }
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
 
-        if(holder instanceof DropHolder){
-            Drop drop= results.get(position);
-            DropHolder dropHolder=(DropHolder)holder;
+        if (holder instanceof DropHolder) {
+            Drop drop = results.get(position);
+            DropHolder dropHolder = (DropHolder) holder;
             dropHolder.UpdateUI(drop);
-            Log.d(TAG, "onBindViewHolder: "+position);
+            Log.d(TAG, "onBindViewHolder: " + position);
         }
 
     }
 
     @Override
     public int getItemCount() {
-        if (results==null||results.isEmpty()){
-            return 0;
-        }else {
-            return results.size() + 1;
+        if (!results.isEmpty()) {
+            return results.size() + COUNT_FOOTER;
+        } else {
+            if (optionFilter == Filter.LEAST_TIME_LEFT
+                    || optionFilter == Filter.MOST_TIME_LEFT
+                    || optionFilter == Filter.NONE) {
+                return 0;
+            } else {
+                return COUNT_NO_ITEM + COUNT_FOOTER;
+            }
         }
+
     }
 
 
     @Override
-    public void OnSwipe(int position) {
-        if (position<results.size()){
-        realm.beginTransaction();
-        results.get(position).deleteFromRealm();
-        realm.commitTransaction();
-        notifyItemRemoved(position);
+    public long getItemId(int position) {
+        if (position < results.size()) {
+            return results.get(position).getAdded();
+        }
+        return RecyclerView.NO_ID;
     }
+
+    @Override
+    public void OnSwipe(int position) {
+        if (position < results.size()) {
+            realm.beginTransaction();
+            results.get(position).deleteFromRealm();
+            realm.commitTransaction();
+            notifyItemRemoved(position);
+        }
+        resetFilterIfEmpty();
+    }
+
+    private void resetFilterIfEmpty() {
+       if (results.isEmpty()&&(optionFilter==Filter.COMPLETE||optionFilter==Filter.INCOMPLETE)){
+              restListener.OnReset();
+       }
     }
 
     public void markComplete(int position) {
-        if (position<results.size()){
+        if (position < results.size()) {
 
-        realm.beginTransaction();
-        results.get(position).setCompleted(true);
-        realm.commitTransaction();
-           notifyItemChanged(position);
+            realm.beginTransaction();
+            results.get(position).setCompleted(true);
+            realm.commitTransaction();
+            notifyItemChanged(position);
         }
     }
 }

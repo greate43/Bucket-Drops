@@ -8,4 +8,12 @@
     <string name="drop_image">drop image</string>
     <string name="background_image">background image</string>
     <string name="close">close</string>
+    <string name="add">Add</string>
+    <string name="completed">Completed</string>
+    <string name="incomplete">Incomplete</string>
+    <string name="no_item">No item To Display</string>
+    <string name="sort_none">None</string>
+    <string name="most_time_left">Most Time Left</string>
+    <string name="least_time_left">Least Time Left</string>
+    <string name="sans_serif_thin">sans-serif-thin</string>
 </resources>
