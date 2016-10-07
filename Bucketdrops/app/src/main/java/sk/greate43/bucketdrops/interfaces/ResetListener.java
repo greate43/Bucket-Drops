@@ -5,5 +5,5 @@ package sk.greate43.bucketdrops.interfaces;
  */
 
 public interface ResetListener {
-   void OnReset();
+    void OnReset();
 }

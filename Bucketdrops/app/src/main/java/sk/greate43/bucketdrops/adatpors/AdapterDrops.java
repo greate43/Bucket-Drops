@@ -32,7 +32,7 @@ public class AdapterDrops extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     public static final int COUNT_FOOTER = 1;
     public static final int COUNT_NO_ITEM = 1;
-
+    public static final String TAG = "Salman";
     private AddListener addListener;
     private MarkListener markListener;
     private LayoutInflater inflater;
@@ -41,7 +41,6 @@ public class AdapterDrops extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     private int optionFilter;
     private ResetListener restListener;
     private Context context;
-    public static final String TAG = "Salman";
 
 
     public AdapterDrops(Context context, Realm r, RealmResults<Drop> results, AddListener listener, MarkListener m, ResetListener reset) {
@@ -51,7 +50,7 @@ public class AdapterDrops extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         addListener = listener;
         realm = r;
         markListener = m;
-        restListener=reset;
+        restListener = reset;
     }
 
     public void update(RealmResults<Drop> results) {
@@ -154,9 +153,9 @@ public class AdapterDrops extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     }
 
     private void resetFilterIfEmpty() {
-       if (results.isEmpty()&&(optionFilter==Filter.COMPLETE||optionFilter==Filter.INCOMPLETE)){
-              restListener.OnReset();
-       }
+        if (results.isEmpty() && (optionFilter == Filter.COMPLETE || optionFilter == Filter.INCOMPLETE)) {
+            restListener.OnReset();
+        }
     }
 
     public void markComplete(int position) {

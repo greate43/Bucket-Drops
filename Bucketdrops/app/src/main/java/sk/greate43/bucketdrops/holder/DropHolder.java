@@ -21,10 +21,11 @@ public class DropHolder extends RecyclerView.ViewHolder implements View.OnClickL
     private TextView TextWhen;
     private MarkListener markListener;
     private Context context;
-   private View view;
+    private View view;
+
     public DropHolder(View itemView, MarkListener m) {
         super(itemView);
-        view=itemView;
+        view = itemView;
         itemView.setOnClickListener(this);
         context = itemView.getContext();
         TextWhat = (TextView) itemView.findViewById(R.id.tv_what);
@@ -35,10 +36,9 @@ public class DropHolder extends RecyclerView.ViewHolder implements View.OnClickL
     public void UpdateUI(Drop drop) {
         TextWhat.setText(drop.getWhat());
         setBackgroundColor(drop.getCompletedTask());
-        TextWhen.setText(DateUtils.getRelativeTimeSpanString(drop.getWhen(),System.currentTimeMillis(),DateUtils.DAY_IN_MILLIS,0));
+        TextWhen.setText(DateUtils.getRelativeTimeSpanString(drop.getWhen(), System.currentTimeMillis(), DateUtils.DAY_IN_MILLIS, 0));
         //DateUtils.FORMAT_ABBREV_ALL
     }
-
 
 
     private void setBackgroundColor(boolean completedTask) {

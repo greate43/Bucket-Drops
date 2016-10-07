@@ -19,7 +19,7 @@ public class BucketRecyclerView extends RecyclerView {
 
     private List<View> NonEmptyViews = Collections.emptyList();
     private List<View> EmptyViews = Collections.emptyList();
-    private AdapterDataObserver dataObserver=new AdapterDataObserver() {
+    private AdapterDataObserver dataObserver = new AdapterDataObserver() {
         @Override
         public void onChanged() {
             toggleViews();
@@ -47,9 +47,21 @@ public class BucketRecyclerView extends RecyclerView {
 
         @Override
         public void onItemRangeMoved(int fromPosition, int toPosition, int itemCount) {
-          toggleViews();
+            toggleViews();
         }
     };
+
+    public BucketRecyclerView(Context context) {
+        super(context);
+    }
+
+    public BucketRecyclerView(Context context, @Nullable AttributeSet attrs) {
+        super(context, attrs);
+    }
+
+    public BucketRecyclerView(Context context, @Nullable AttributeSet attrs, int defStyle) {
+        super(context, attrs, defStyle);
+    }
 
     private void toggleViews() {
         if (getAdapter() != null && !EmptyViews.isEmpty() && !NonEmptyViews.isEmpty()) {
@@ -75,34 +87,22 @@ public class BucketRecyclerView extends RecyclerView {
         }
     }
 
-    public BucketRecyclerView(Context context) {
-        super(context);
-    }
-
-    public BucketRecyclerView(Context context, @Nullable AttributeSet attrs) {
-        super(context, attrs);
-    }
-
-    public BucketRecyclerView(Context context, @Nullable AttributeSet attrs, int defStyle) {
-        super(context, attrs, defStyle);
-    }
-
     @Override
     public void setAdapter(Adapter adapter) {
         super.setAdapter(adapter);
 
-        if(adapter!=null){
+        if (adapter != null) {
             adapter.registerAdapterDataObserver(dataObserver);
             dataObserver.onChanged();
         }
     }
 
-    public void hideifempty(View ...views) {
-    NonEmptyViews= Arrays.asList(views);
+    public void hideifempty(View... views) {
+        NonEmptyViews = Arrays.asList(views);
     }
 
 
-    public void showifempty(View ...emptyViews) {
-        EmptyViews= Arrays.asList(emptyViews);
+    public void showifempty(View... emptyViews) {
+        EmptyViews = Arrays.asList(emptyViews);
     }
 }

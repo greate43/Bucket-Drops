@@ -32,11 +32,9 @@ public class Drop extends RealmObject {
     }
 
 
-
     public long getWhen() {
         return when;
     }
-
 
 
     public boolean getCompletedTask() {

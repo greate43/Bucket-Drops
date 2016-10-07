@@ -39,7 +39,8 @@ public class MainActivity extends AppCompatActivity {
     BucketRecyclerView recyclerView;
     Realm realm;
     RealmResults<Drop> results;
-
+    AdapterDrops adatperDrop;
+    View emptyView;
     private AddListener addListener = new AddListener() {
         @Override
         public void add() {
@@ -47,33 +48,18 @@ public class MainActivity extends AppCompatActivity {
 
         }
     };
-
-    private MarkListener markListener = new MarkListener() {
-        @Override
-        public void OnMark(int position) {
-            showDialogMark(position);
-        }
-    };
-
-    private ResetListener resetListener=new ResetListener() {
-        @Override
-        public void OnReset() {
-          AppBucketDrops.save(MainActivity.this,Filter.NONE);
-            loadResults(Filter.NONE);
-        }
-    };
-
-
     private TaskCompleteListener taskCompleteListener = new TaskCompleteListener() {
         @Override
         public void OnComplete(int position) {
             adatperDrop.markComplete(position);
         }
     };
-
-    AdapterDrops adatperDrop;
-    View emptyView;
-
+    private MarkListener markListener = new MarkListener() {
+        @Override
+        public void OnMark(int position) {
+            showDialogMark(position);
+        }
+    };
     private RealmChangeListener realmChangeListener = new RealmChangeListener() {
         @Override
         public void onChange(Object element) {
@@ -81,6 +67,13 @@ public class MainActivity extends AppCompatActivity {
 
             adatperDrop.update(results);
 
+        }
+    };
+    private ResetListener resetListener = new ResetListener() {
+        @Override
+        public void OnReset() {
+            AppBucketDrops.save(MainActivity.this, Filter.NONE);
+            loadResults(Filter.NONE);
         }
     };
 
@@ -97,12 +90,12 @@ public class MainActivity extends AppCompatActivity {
 
         realm = Realm.getDefaultInstance();
 
-        int filterOption=AppBucketDrops.load(this);
+        int filterOption = AppBucketDrops.load(this);
         loadResults(filterOption);
 
         recyclerView.hideifempty(toolbar);
         recyclerView.showifempty(emptyView);
-        adatperDrop = new AdapterDrops(this, realm, results, addListener, markListener,resetListener);
+        adatperDrop = new AdapterDrops(this, realm, results, addListener, markListener, resetListener);
         adatperDrop.setHasStableIds(true);
         recyclerView.setAdapter(adatperDrop);
         recyclerView.addItemDecoration(new Divider(this, LinearLayoutManager.VERTICAL));
@@ -112,9 +105,8 @@ public class MainActivity extends AppCompatActivity {
         itemTouchHelper.attachToRecyclerView(recyclerView);
 
 
-
         Util.ScheduleAlarm(this);
-
+        initImageView();
     }
 
 
@@ -164,74 +156,73 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main,menu);
+        getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int id=item.getItemId();
-        int filterOption=Filter.NONE;
-        boolean handled=true;
-        switch (id){
+        int id = item.getItemId();
+        int filterOption = Filter.NONE;
+        boolean handled = true;
+        switch (id) {
 
             case Filter.NONE:
-               filterOption=Filter.NONE;
+                filterOption = Filter.NONE;
                 break;
             case R.id.action_add:
                 showDialogAdd();
                 break;
             case R.id.action_sort_assending_date:
-                filterOption=Filter.LEAST_TIME_LEFT;
+                filterOption = Filter.LEAST_TIME_LEFT;
 
 
                 break;
             case R.id.action_show_descending_date:
-                filterOption=Filter.MOST_TIME_LEFT;
+                filterOption = Filter.MOST_TIME_LEFT;
 
 
                 break;
             case R.id.action_show_complete:
-                filterOption=Filter.COMPLETE;
+                filterOption = Filter.COMPLETE;
 
 
                 break;
             case R.id.action_show_incomplete:
-                filterOption=Filter.INCOMPLETE;
+                filterOption = Filter.INCOMPLETE;
 
 
                 break;
             default:
-                 handled=false;
-              break;
+                handled = false;
+                break;
         }
-        AppBucketDrops.save(this,filterOption);
+        AppBucketDrops.save(this, filterOption);
         loadResults(filterOption);
         return handled;
     }
 
 
-
-    private void loadResults(int filterOption){
-        switch (filterOption){
+    private void loadResults(int filterOption) {
+        switch (filterOption) {
             case Filter.NONE:
 
                 results = realm.where(Drop.class).findAllAsync();
                 break;
             case Filter.LEAST_TIME_LEFT:
-                results=realm.where(Drop.class).findAllSortedAsync("when",Sort.ASCENDING);
+                results = realm.where(Drop.class).findAllSortedAsync("when", Sort.ASCENDING);
 
                 break;
             case Filter.MOST_TIME_LEFT:
-                results=realm.where(Drop.class).findAllSortedAsync("when",Sort.DESCENDING);
+                results = realm.where(Drop.class).findAllSortedAsync("when", Sort.DESCENDING);
 
                 break;
             case Filter.COMPLETE:
-                results=realm.where(Drop.class).equalTo("completed",true).findAllAsync();
+                results = realm.where(Drop.class).equalTo("completed", true).findAllAsync();
 
                 break;
             case Filter.INCOMPLETE:
-                results=realm.where(Drop.class).equalTo("completed",false).findAllAsync();
+                results = realm.where(Drop.class).equalTo("completed", false).findAllAsync();
 
                 break;
         }

@@ -49,7 +49,8 @@ public class BucketPickerView extends LinearLayout implements View.OnTouchListen
     private Drawable UpPressed;
     private Drawable DownNormal;
     private Drawable DownPressed;
-
+    private int MESSAGE_WHAT = 123;
+    private int ActiveId;
     private Handler handler = new Handler(new Handler.Callback() {
         @Override
         public boolean handleMessage(Message msg) {
@@ -65,8 +66,6 @@ public class BucketPickerView extends LinearLayout implements View.OnTouchListen
             return true;
         }
     });
-    private int MESSAGE_WHAT = 123;
-    private int ActiveId;
 
     public BucketPickerView(Context context) {
         super(context);

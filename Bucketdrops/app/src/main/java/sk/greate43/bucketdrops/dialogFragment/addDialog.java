@@ -33,11 +33,11 @@ public class AddDialog extends DialogFragment {
     private View.OnClickListener mBtnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            int id=v.getId();
-            switch (id){
+            int id = v.getId();
+            switch (id) {
                 case R.id.btn_add_a_drop:
                     addAction();
-                  break;
+                    break;
 
             }
 
@@ -46,15 +46,16 @@ public class AddDialog extends DialogFragment {
         }
     };
 
+    public AddDialog() {
+    }
+
     private void addAction() {
-        String what= InputWhat.getText().toString();
-        long now= System.currentTimeMillis();
+        String what = InputWhat.getText().toString();
+        long now = System.currentTimeMillis();
 
 
-
-
-        Realm realm=Realm.getDefaultInstance();
-        Drop drop=new Drop(what,now,InputWhen.getTime(),false);
+        Realm realm = Realm.getDefaultInstance();
+        Drop drop = new Drop(what, now, InputWhen.getTime(), false);
         realm.beginTransaction();
         realm.copyToRealm(drop);
         realm.commitTransaction();
@@ -62,19 +63,16 @@ public class AddDialog extends DialogFragment {
 
     }
 
-    public AddDialog() {
-    }
-
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setStyle(DialogFragment.STYLE_NORMAL,R.style.DialogThemeCustom);
+        setStyle(DialogFragment.STYLE_NORMAL, R.style.DialogThemeCustom);
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.add_dialog,container,false);
+        return inflater.inflate(R.layout.add_dialog, container, false);
     }
 
 

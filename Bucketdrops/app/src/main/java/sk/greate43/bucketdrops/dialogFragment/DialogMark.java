@@ -37,8 +37,8 @@ public class DialogMark extends DialogFragment {
     private void markASComplete() {
 
         Bundle arguments = getArguments();
-        if(taskCompleteListener!=null&&arguments!=null){
-           int position = arguments.getInt("POSITION");
+        if (taskCompleteListener != null && arguments != null) {
+            int position = arguments.getInt("POSITION");
             taskCompleteListener.OnComplete(position);
         }
     }
@@ -46,7 +46,7 @@ public class DialogMark extends DialogFragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setStyle(DialogFragment.STYLE_NORMAL,R.style.DialogThemeCustom);
+        setStyle(DialogFragment.STYLE_NORMAL, R.style.DialogThemeCustom);
     }
 
 
@@ -65,9 +65,7 @@ public class DialogMark extends DialogFragment {
         mark.setOnClickListener(BtnClickListener);
 
 
-
     }
-
 
 
     public void setCompleteListener(TaskCompleteListener listener) {

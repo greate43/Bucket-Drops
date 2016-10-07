@@ -12,18 +12,19 @@ import sk.greate43.bucketdrops.interfaces.AddListener;
  */
 
 public class FooterHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-   private Button footer;
+    private Button footer;
     // using for the fragment dialog
-   private AddListener addListener;
+    private AddListener addListener;
 
-    public FooterHolder(View itemView,AddListener listener) {
+    public FooterHolder(View itemView, AddListener listener) {
         super(itemView);
-        footer=(Button)itemView.findViewById(R.id.footerBtn);
+        footer = (Button) itemView.findViewById(R.id.footerBtn);
         footer.setOnClickListener(this);
-        addListener=listener;
+        addListener = listener;
     }
+
     @Override
     public void onClick(View v) {
-    addListener.add();
+        addListener.add();
     }
 }
