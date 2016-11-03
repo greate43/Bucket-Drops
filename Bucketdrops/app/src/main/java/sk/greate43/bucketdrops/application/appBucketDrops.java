@@ -16,6 +16,14 @@ import sk.greate43.bucketdrops.interfaces.Filter;
  */
 public class AppBucketDrops extends Application {
 
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        Realm.init(this);
+        RealmConfiguration config = new RealmConfiguration.Builder().build();
+        Realm.setDefaultConfiguration(config);
+    }
     public static void save(Context context, int filterOption) {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
         SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -41,10 +49,5 @@ public class AppBucketDrops extends Application {
         }
     }
 
-    @Override
-    public void onCreate() {
-        super.onCreate();
-        RealmConfiguration config = new RealmConfiguration.Builder(this).build();
-        Realm.setDefaultConfiguration(config);
-    }
+
 }
