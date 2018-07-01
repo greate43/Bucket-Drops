@@ -1,6 +1,7 @@
 package sk.greate43.bucketdrops.activities;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -62,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
     };
     private RealmChangeListener realmChangeListener = new RealmChangeListener() {
         @Override
-        public void onChange(Object element) {
+        public void onChange(@NonNull Object element) {
             Log.v("Tag", "on change was called");
 
             adatperDrop.update(results);

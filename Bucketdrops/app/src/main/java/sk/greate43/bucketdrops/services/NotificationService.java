@@ -1,11 +1,16 @@
 package sk.greate43.bucketdrops.services;
 
 import android.app.IntentService;
-import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.media.RingtoneManager;
+import android.net.Uri;
+import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
-import br.com.goncalves.pugnotification.notification.PugNotification;
 import io.realm.Realm;
 import io.realm.RealmResults;
 import sk.greate43.bucketdrops.R;
@@ -42,18 +47,30 @@ public class NotificationService extends IntentService {
     }
 
     private void FireNotification() {
-        PugNotification.with(this)
-                .load()
-                .title("Achievement")
-                .message("You nearing your goal")
-                .bigTextStyle("Congratulation, You are on the verge of accomplishing your goal ")
-                .smallIcon(R.drawable.ic_drop)
-                .largeIcon(R.drawable.ic_drop)
-                .flags(Notification.DEFAULT_ALL)
-                .autoCancel(true)
-                .click(MainActivity.class)
-                .simple()
-                .build();
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this,0 /* request code */, intent,PendingIntent.FLAG_UPDATE_CURRENT);
+
+        long[] pattern = {500, 500, 500, 500, 500};
+
+        Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+
+        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, "M_CH_ID")
+                .setSmallIcon(R.mipmap.ic_launcher)
+                .setContentTitle("Achievement")
+                .setContentText("You nearing your goal")
+                .setSmallIcon(R.drawable.ic_drop)
+                .setAutoCancel(true)
+                .setVibrate(pattern)
+                .setLights(Color.BLUE, 1, 1)
+                .setSound(defaultSoundUri)
+                .setContentIntent(pendingIntent)
+                ;
+
+        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        if (notificationManager != null) {
+            notificationManager.notify(0 /* ID of notification */, notificationBuilder.build());
+        }
     }
 
     private boolean isNotificationNeeded(long added, long when) {
