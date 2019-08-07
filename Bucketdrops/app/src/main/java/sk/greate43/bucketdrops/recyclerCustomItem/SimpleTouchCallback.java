@@ -1,8 +1,10 @@
 package sk.greate43.bucketdrops.recyclerCustomItem;
 
 import android.graphics.Canvas;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.helper.ItemTouchHelper;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.ItemTouchHelper;
 
 import sk.greate43.bucketdrops.holder.DropHolder;
 import sk.greate43.bucketdrops.interfaces.SwipeListener;
@@ -19,7 +21,7 @@ public class SimpleTouchCallback extends ItemTouchHelper.Callback {
     }
 
     @Override
-    public int getMovementFlags(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
+    public int getMovementFlags(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder) {
         return makeMovementFlags(0, ItemTouchHelper.END);
     }
 

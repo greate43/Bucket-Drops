@@ -1,12 +1,12 @@
 package sk.greate43.bucketdrops.activities;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.Toolbar;
-import android.support.v7.widget.helper.ItemTouchHelper;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -211,11 +211,11 @@ public class MainActivity extends AppCompatActivity {
                 results = realm.where(Drop.class).findAllAsync();
                 break;
             case Filter.LEAST_TIME_LEFT:
-                results = realm.where(Drop.class).findAllSortedAsync("when", Sort.ASCENDING);
+                results = realm.where(Drop.class).sort("when", Sort.ASCENDING).findAllAsync();
 
                 break;
             case Filter.MOST_TIME_LEFT:
-                results = realm.where(Drop.class).findAllSortedAsync("when", Sort.DESCENDING);
+                results = realm.where(Drop.class).sort("when", Sort.DESCENDING).findAllAsync();
 
                 break;
             case Filter.COMPLETE:

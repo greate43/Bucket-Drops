@@ -33,8 +33,7 @@ public class AppBucketDrops extends Application {
 
     public static int load(Context context) {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-        int filterOption = sharedPreferences.getInt("filter", Filter.NONE);
-        return filterOption;
+        return sharedPreferences.getInt("filter", Filter.NONE);
     }
 
     public static void setRalewayRegular(Context context, TextView textView) {
